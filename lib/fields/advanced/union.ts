@@ -1,4 +1,5 @@
 import { FieldModel, FieldType } from "../base";
+import { joinValues } from "../../utils/types";
 
 export class UnionField<
     T extends FieldModel<unknown>,
@@ -8,7 +9,8 @@ export class UnionField<
         super();
     }
 
-    override name = `UnionField<${this.model1.name} | ${this.model2.name}>`;
+    override type = joinValues([this.model1.name, this.model2.name]);
+    override name = `UnionField<${this.type}>`;
 
     override validate(value: unknown, key: string = "value"): true | never {
         let m1 = this.model1.check(value);

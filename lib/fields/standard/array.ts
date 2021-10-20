@@ -7,6 +7,7 @@ export class ArrayField<T extends FieldModel<unknown>> extends FieldModel<
         super();
     }
 
+    override type = `${this.model.name}[]`;
     override name = `ArrayField<${this.model.name}>`;
 
     override validate(value: unknown, key: string = "value"): true | never {

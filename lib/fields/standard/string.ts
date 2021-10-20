@@ -5,6 +5,7 @@ export class StringField extends FieldModel<string> {
         super();
     }
 
+    override type = "string";
     override name = "StringField";
 
     override validate(value: unknown, key: string = "value"): true | never {

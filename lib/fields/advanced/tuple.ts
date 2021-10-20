@@ -1,12 +1,11 @@
 import { FieldModel } from "../base";
+import { stringifyValues, joinValues } from "../../utils/types";
 
 const allowedTypes = ["string", "number"] as const;
 type AllowedTypes = string | number;
 
-export class TupleField<
-    T extends ReadonlyArray<AllowedTypes>
-> extends FieldModel<T[number]> {
-    constructor(public readonly values: T) {
+export class TupleField<T extends AllowedTypes> extends FieldModel<T> {
+    constructor(public readonly values: ReadonlyArray<T>) {
         super();
 
         values.forEach((x) => {
@@ -22,15 +21,12 @@ export class TupleField<
         });
     }
 
-    override name = `TupleField<${this.values.join(" | ")}>`;
+    override type = `(${joinValues(stringifyValues(this.values.concat()))})`;
+    override name = `TupleField<${this.type}>`;
 
     override validate(value: unknown, key: string = "value"): true | never {
-        if (!this.values.includes(value as T[number])) {
-            throw new TypeError(
-                `'${key}' must be '${this.values
-                    .map((x) => `'${x}'`)
-                    .join(" or ")}'`
-            );
+        if (!this.values.includes(value as T)) {
+            throw new TypeError(`'${key}' must be '${this.type}'`);
         }
 
         return true;

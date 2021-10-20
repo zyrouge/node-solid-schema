@@ -7,7 +7,8 @@ export class OptionalField<T extends FieldModel<unknown>> extends FieldModel<
         super();
     }
 
-    override name = `OptionalField<${super.name}>`;
+    override type = `${this.model.name} | null | undefined`;
+    override name = `OptionalField<${this.type}>`;
 
     override validate(value: unknown, key: string = "value"): true | never {
         if (value === undefined || value === null) {

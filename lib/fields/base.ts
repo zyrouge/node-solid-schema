@@ -10,6 +10,7 @@ import type { TupleField } from "./advanced/tuple";
 
 export class FieldModel<T> {
     name: string = "-";
+    type: string = "-";
 
     create(value: T): T {
         this.validate(value);

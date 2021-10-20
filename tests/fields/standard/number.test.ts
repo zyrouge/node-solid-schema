@@ -1,31 +1,31 @@
 import SolidSchema from "../../../lib";
 
-describe("NumberField", () => {
-    const field = new SolidSchema.Fields.NumberField();
+const field = new SolidSchema.Fields.NumberField();
 
-    test(".create", () => {
+describe(field.name, () => {
+    test(`${field.name}.create`, () => {
         // @ts-expect-error
-        expect(field.create("hello")).toThrowError();
-        expect(field.create(1)).toBe(1);
+        expect(() => field.create("hello")).toThrowError();
+        expect(() => field.create(1)).not.toThrowError();
         // @ts-expect-error
-        expect(field.create(true)).toThrowError();
+        expect(() => field.create(true)).toThrowError();
         // @ts-expect-error
-        expect(field.create(false)).toThrowError();
+        expect(() => field.create(false)).toThrowError();
         // @ts-expect-error
-        expect(field.create({})).toThrowError();
+        expect(() => field.create({})).toThrowError();
         // @ts-expect-error
-        expect(field.create([])).toThrowError();
+        expect(() => field.create([])).toThrowError();
         // @ts-expect-error
-        expect(field.create([1])).toThrowError();
+        expect(() => field.create([1])).toThrowError();
         // @ts-expect-error
-        expect(field.create(["hello"])).toThrowError();
+        expect(() => field.create(["hello"])).toThrowError();
         // @ts-expect-error
-        expect(field.create(undefined)).toThrowError();
+        expect(() => field.create(undefined)).toThrowError();
         // @ts-expect-error
-        expect(field.create(null)).toThrowError();
+        expect(() => field.create(null)).toThrowError();
     });
 
-    test(".check", () => {
+    test(`${field.name}.check`, () => {
         expect(field.check("hello")).toBe(false);
         expect(field.check(1)).toBe(true);
         expect(field.check(true)).toBe(false);

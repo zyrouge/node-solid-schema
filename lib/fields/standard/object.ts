@@ -14,9 +14,10 @@ export class ObjectField<T extends ObjectFieldModel> extends FieldModel<
         super();
     }
 
-    override name = `ObjectField<{\n${Object.entries(this.model)
-        .map(([k, v]) => `${k}: ${v.name}`)
-        .join("\n")}\n}>`;
+    override type = `{\n${Object.entries(this.model)
+        .map(([k, v]) => `  ${k}: ${v.name};`)
+        .join("\n")}\n}`;
+    override name = `ObjectField<${this.type}>`;
 
     override validate(value: unknown, key: string = "value"): true | never {
         if (

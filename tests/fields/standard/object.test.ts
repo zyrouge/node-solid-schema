@@ -1,50 +1,48 @@
 import SolidSchema from "../../../lib";
 
-describe("ObjectField", () => {
-    const field = new SolidSchema.Fields.ObjectField({
-        a: new SolidSchema.Fields.StringField(),
-        b: new SolidSchema.Fields.OptionalField(
-            new SolidSchema.Fields.NumberField()
-        ),
-    });
+const field = new SolidSchema.Fields.ObjectField({
+    a: new SolidSchema.Fields.StringField(),
+    b: new SolidSchema.Fields.OptionalField(
+        new SolidSchema.Fields.NumberField()
+    ),
+});
 
-    test(".create", () => {
+describe(field.name, () => {
+    test(`${field.name}.create`, () => {
         // @ts-expect-error
-        expect(field.create("hello")).toThrowError();
+        expect(() => field.create("hello")).toThrowError();
         // @ts-expect-error
-        expect(field.create(1)).toThrowError();
+        expect(() => field.create(1)).toThrowError();
         // @ts-expect-error
-        expect(field.create(true)).toThrowError();
+        expect(() => field.create(true)).toThrowError();
         // @ts-expect-error
-        expect(field.create(false)).toThrowError();
+        expect(() => field.create(false)).toThrowError();
         // @ts-expect-error
-        expect(field.create({})).toThrowError();
+        expect(() => field.create({})).toThrowError();
         // @ts-expect-error
-        expect(field.create([])).toThrowError();
+        expect(() => field.create([])).toThrowError();
         // @ts-expect-error
-        expect(field.create([1])).toThrowError();
+        expect(() => field.create([1])).toThrowError();
         // @ts-expect-error
-        expect(field.create(["hello"])).toThrowError();
+        expect(() => field.create(["hello"])).toThrowError();
         // @ts-expect-error
-        expect(field.create(undefined)).toThrowError();
+        expect(() => field.create(undefined)).toThrowError();
         // @ts-expect-error
-        expect(field.create(null)).toThrowError();
-        expect(
+        expect(() => field.create(null)).toThrowError();
+        expect(() =>
             field.create({
                 a: "hello",
                 b: undefined,
             })
-        ).toBe({
-            a: "hello",
-        });
-        expect(
+        ).not.toThrowError();
+        expect(() =>
             field.create({
                 a: "hello",
                 // @ts-expect-error
                 b: "world",
             })
         ).toThrowError();
-        expect(
+        expect(() =>
             field.create({
                 a: "hello",
                 b: 1,
@@ -52,27 +50,21 @@ describe("ObjectField", () => {
                 c: "foo",
             })
         ).toThrowError();
-        expect(
+        expect(() =>
             field.create({
                 a: "hello",
                 b: null,
             })
-        ).toBe({
-            a: "hello",
-            b: null,
-        });
-        expect(
+        ).not.toThrowError();
+        expect(() =>
             field.create({
                 a: "hello",
                 b: 1,
             })
-        ).toBe({
-            a: "hello",
-            b: 1,
-        });
+        ).not.toThrowError();
     });
 
-    test(".check", () => {
+    test(`${field.name}.check`, () => {
         expect(field.check("hello")).toBe(false);
         expect(field.check(1)).toBe(false);
         expect(field.check(true)).toBe(false);
