@@ -1,8 +1,6 @@
-import SolidSchema from "../../../lib";
+import { fields } from "../../../lib";
 
-const field = new SolidSchema.Fields.OptionalField(
-    new SolidSchema.Fields.BooleanField()
-);
+const field = fields.optional(fields.boolean());
 
 describe(field.name, () => {
     test(`${field.name}.create`, () => {

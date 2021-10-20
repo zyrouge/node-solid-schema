@@ -1,9 +1,6 @@
-import SolidSchema from "../../../lib";
+import { fields } from "../../../lib";
 
-const field = new SolidSchema.Fields.UnionField(
-    new SolidSchema.Fields.StringField(),
-    new SolidSchema.Fields.NumberField()
-);
+const field = fields.union(fields.string(), fields.number());
 
 describe(field.name, () => {
     test(`${field.name}.create`, () => {

@@ -1,6 +1,6 @@
-import SolidSchema from "../../../lib";
+import { fields } from "../../../lib";
 
-const field = new SolidSchema.Fields.TupleField(["hello", "world"] as const);
+const field = fields.tuple(["hello", "world"] as const);
 
 describe(field.name, () => {
     test(`${field.name}.create`, () => {

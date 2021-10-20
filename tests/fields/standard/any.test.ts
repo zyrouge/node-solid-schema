@@ -1,6 +1,6 @@
-import SolidSchema from "../../../lib";
+import { fields } from "../../../lib";
 
-const field = new SolidSchema.Fields.AnyField();
+const field = fields.any();
 
 describe(field.name, () => {
     test(`${field.name}.create`, () => {

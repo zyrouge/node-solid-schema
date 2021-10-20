@@ -1,10 +1,8 @@
-import SolidSchema from "../../../lib";
+import { fields } from "../../../lib";
 
-const field = new SolidSchema.Fields.ObjectField({
-    a: new SolidSchema.Fields.StringField(),
-    b: new SolidSchema.Fields.OptionalField(
-        new SolidSchema.Fields.NumberField()
-    ),
+const field = fields.object({
+    a: fields.string(),
+    b: fields.optional(fields.number()),
 });
 
 describe(field.name, () => {
