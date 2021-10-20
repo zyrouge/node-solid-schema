@@ -1,5 +1,4 @@
 import * as Fields from "./fields";
 
-export = {
-    Fields,
-};
+export { Fields };
+export default { Fields };
