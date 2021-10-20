@@ -7,9 +7,9 @@ export class StringField extends FieldModel<string> {
 
     override name = "StringField";
 
-    override validate(value: unknown): true | never {
+    override validate(value: unknown, key: string = "value"): true | never {
         if (typeof value !== "string") {
-            throw new TypeError("'value' must be a 'string'");
+            throw new TypeError(`'${key}' must be a 'string'`);
         }
 
         return true;

@@ -9,13 +9,13 @@ export class ArrayField<T extends FieldModel<unknown>> extends FieldModel<
 
     override name = `ArrayField<${this.model.name}>`;
 
-    override validate(value: unknown): true | never {
+    override validate(value: unknown, key: string = "value"): true | never {
         if (!Array.isArray(value)) {
-            throw new TypeError("'value' must be an 'array'");
+            throw new TypeError(`'${key}' must be an 'array'`);
         }
 
-        value.forEach((val) => {
-            this.model.validate(val);
+        value.forEach((val, i) => {
+            this.model.validate(val, `Index ${i}`);
         });
 
         return true;

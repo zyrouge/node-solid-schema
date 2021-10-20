@@ -9,12 +9,12 @@ export class OptionalField<T extends FieldModel<unknown>> extends FieldModel<
 
     override name = `OptionalField<${super.name}>`;
 
-    override validate(value: unknown): true | never {
+    override validate(value: unknown, key: string = "value"): true | never {
         if (value === undefined || value === null) {
             return true;
         }
 
-        return this.model.validate(value);
+        return this.model.validate(value, key);
     }
 }
 

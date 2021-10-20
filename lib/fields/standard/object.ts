@@ -18,35 +18,36 @@ export class ObjectField<T extends ObjectFieldModel> extends FieldModel<
         .map(([k, v]) => `${k}: ${v.name}`)
         .join("\n")}\n}>`;
 
-    override validate(value: unknown): true | never {
+    override validate(value: unknown, key: string = "value"): true | never {
         if (
             typeof value !== "object" ||
             Array.isArray(value) ||
             value === null
         ) {
-            throw new Error("'value' must be an 'object'");
+            throw new TypeError(`'${key}' must be an 'object'`);
         }
 
         const modelKeys: (keyof ObjectFieldType<T>)[] = Object.keys(this.model);
         const valueKeys: (keyof ObjectFieldType<T>)[] = Object.keys(value);
 
-        modelKeys.forEach((key) => {
+        modelKeys.forEach((k) => {
             if (
-                !valueKeys.includes(key) &&
-                !(this.model[key]! instanceof OptionalField)
+                !valueKeys.includes(k) &&
+                !(this.model[k]! instanceof OptionalField)
             ) {
-                throw new RangeError(`'value' has a missing key '${key}'`);
+                throw new RangeError(`'${key}' has a missing key '${k}'`);
             }
         });
 
-        valueKeys.forEach((key) => {
-            if (!modelKeys.includes(key)) {
-                throw new RangeError(
-                    `'value' contains an unknown key '${key}'`
-                );
+        valueKeys.forEach((k) => {
+            if (!modelKeys.includes(k)) {
+                throw new RangeError(`'${key}' contains an unknown key '${k}'`);
             }
 
-            this.model[key]!.validate((<ObjectFieldType<T>>value)[key]);
+            this.model[k]!.validate(
+                (<ObjectFieldType<T>>value)[k],
+                `${key}.${k}`
+            );
         });
 
         return true;

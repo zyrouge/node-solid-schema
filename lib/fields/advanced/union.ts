@@ -10,13 +10,13 @@ export class UnionField<
 
     override name = `UnionField<${this.model1.name} | ${this.model2.name}>`;
 
-    override validate(value: unknown): true | never {
+    override validate(value: unknown, key: string = "value"): true | never {
         let m1 = this.model1.check(value);
         let m2 = this.model2.check(value);
 
         if (!m1 && !m2) {
             throw new Error(
-                `'value' must be '${this.model1.name}' or '${this.model2.name}'`
+                `'${key}' must be '${this.model1.name}' or '${this.model2.name}'`
             );
         }
 

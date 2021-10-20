@@ -24,7 +24,7 @@ export class FieldModel<T> {
         }
     }
 
-    validate(_value: unknown): true | never {
+    validate(_value: unknown, _key: string = "value"): true | never {
         throw new Error("'validate' method has not been implemented");
     }
 }

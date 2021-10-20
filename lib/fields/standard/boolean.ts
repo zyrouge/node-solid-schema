@@ -3,9 +3,9 @@ import { FieldModel } from "../base";
 export class BooleanField extends FieldModel<boolean> {
     override name = "BooleanField";
 
-    override validate(value: unknown): true | never {
+    override validate(value: unknown, key: string = "value"): true | never {
         if (typeof value !== "boolean") {
-            throw new TypeError("'value' must be a 'boolean'");
+            throw new TypeError(`'${key}' must be a 'boolean'`);
         }
 
         return true;
