@@ -6,6 +6,7 @@ import type { ObjectField, ObjectFieldType } from "./standard/object";
 import type { OptionalField } from "./standard/optional";
 import type { StringField } from "./standard/string";
 import type { UnionField } from "./advanced/union";
+import type { TupleField } from "./advanced/tuple";
 
 export class FieldModel<T> {
     name: string = "-";
@@ -34,6 +35,8 @@ export type FieldType<M extends FieldModel<unknown>> = M extends UnionField<
     infer U
 >
     ? FieldType<T> | FieldType<U>
+    : M extends TupleField<infer T>
+    ? T
     : M extends ArrayField<infer T>
     ? FieldType<T>[]
     : M extends BooleanField

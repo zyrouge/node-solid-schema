@@ -1,14 +1,15 @@
 import SolidSchema from "../../../lib";
 
-describe("UnionField", () => {
-    const field = new SolidSchema.Fields.UnionField(
-        new SolidSchema.Fields.StringField(),
-        new SolidSchema.Fields.NumberField()
-    );
+describe("TupleField", () => {
+    const field = new SolidSchema.Fields.TupleField([
+        "hello",
+        "world",
+    ] as const);
 
     test(".create", () => {
         expect(field.create("hello")).toBe("hello");
-        expect(field.create(1)).toBe(1);
+        // @ts-expect-error
+        expect(field.create(1)).toThrowError();
         // @ts-expect-error
         expect(field.create(true)).toThrowError();
         // @ts-expect-error
@@ -29,7 +30,7 @@ describe("UnionField", () => {
 
     test(".check", () => {
         expect(field.check("hello")).toBe(true);
-        expect(field.check(1)).toBe(true);
+        expect(field.check(1)).toBe(false);
         expect(field.check(true)).toBe(false);
         expect(field.check(false)).toBe(false);
         expect(field.check({})).toBe(false);

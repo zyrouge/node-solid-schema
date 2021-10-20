@@ -14,6 +14,7 @@ const {
         BooleanField,
         OptionalField,
         ObjectField,
+        TupleField,
     },
 } = SolidSchema;
 
@@ -22,6 +23,7 @@ const UserSchema = new ObjectField({
     lastname: new OptionalField(new StringField()),
     age: new NumberField(),
     enrolled: new BooleanField(),
+    gender: new TupleField(["Male", "Female"] as const),
 });
 
 const validUser = UserSchema.create({
@@ -29,12 +31,14 @@ const validUser = UserSchema.create({
     lastname: undefined,
     age: 25,
     enrolled: false,
+    gender: "Male",
 });
 
 const validUser = UserSchema.create({
     firstname: "Alan",
     lastname: "Walker",
-    age: "what", // "Type 'string' is not assignable to type 'number'." and will throw error on runtime
+    age: "?", // "Type 'string' is not assignable to type 'number'." and will throw error in runtime
     enrolled: false,
+    gender: "?", // "Type 'string' is not assignable to type '"hello" | "world"'." and will throw error in runtime
 });
 ```

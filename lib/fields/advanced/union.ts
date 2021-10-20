@@ -15,7 +15,7 @@ export class UnionField<
         let m2 = this.model2.check(value);
 
         if (!m1 && !m2) {
-            throw new Error(
+            throw new TypeError(
                 `'${key}' must be '${this.model1.name}' or '${this.model2.name}'`
             );
         }

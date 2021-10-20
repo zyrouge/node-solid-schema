@@ -7,3 +7,4 @@ export * from "./standard/object";
 export * from "./standard/optional";
 export * from "./standard/string";
 export * from "./advanced/union";
+export * from "./advanced/tuple";
