@@ -29,12 +29,13 @@ export class FieldModel<T> {
     }
 }
 
-export type FieldType<M extends FieldModel<unknown>> = M extends ArrayField<
-    infer T
+export type FieldType<M extends FieldModel<unknown>> = M extends UnionField<
+    infer T,
+    infer U
 >
-    ? FieldType<T>[]
-    : M extends UnionField<infer T, infer U>
     ? FieldType<T> | FieldType<U>
+    : M extends ArrayField<infer T>
+    ? FieldType<T>[]
     : M extends BooleanField
     ? boolean
     : M extends OptionalField<infer T>

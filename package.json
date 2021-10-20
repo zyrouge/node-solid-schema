@@ -2,7 +2,10 @@
     "name": "solid-schema",
     "version": "1.0.0",
     "description": "Create schemas with strict type",
-    "main": "dist/index.js",
+    "main": "dist/lib/index.js",
+    "files": [
+        "dist/lib"
+    ],
     "scripts": {
         "build": "rimraf ./dist && tsc",
         "test": "jest"
