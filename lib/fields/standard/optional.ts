@@ -1,7 +1,7 @@
 import { FieldModel, FieldType } from "../base";
 
 export class OptionalField<T extends FieldModel<unknown>> extends FieldModel<
-    OptionalFieldType<T>
+    FieldType<T> | null | undefined
 > {
     constructor(public readonly model: T) {
         super();
@@ -17,8 +17,3 @@ export class OptionalField<T extends FieldModel<unknown>> extends FieldModel<
         return this.model.validate(value, key);
     }
 }
-
-export type OptionalFieldType<T extends FieldModel<unknown>> =
-    | FieldType<T>
-    | null
-    | undefined;

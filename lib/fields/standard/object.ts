@@ -54,6 +54,10 @@ export class ObjectField<T extends ObjectFieldModel> extends FieldModel<
     }
 }
 
+// TODO: Make keys really "optional"
+// Pending at:
+//      https://github.com/microsoft/TypeScript/issues/44261
+//      https://github.com/microsoft/TypeScript/issues/44261
 export type ObjectFieldType<T extends ObjectFieldModel> = {
     [K in keyof T]: FieldType<T[K]>;
 };

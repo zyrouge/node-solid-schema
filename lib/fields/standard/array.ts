@@ -1,7 +1,7 @@
 import { FieldModel, FieldType } from "../base";
 
 export class ArrayField<T extends FieldModel<unknown>> extends FieldModel<
-    ArrayFieldType<T>
+    FieldType<T>[]
 > {
     constructor(public readonly model: T) {
         super();
@@ -21,5 +21,3 @@ export class ArrayField<T extends FieldModel<unknown>> extends FieldModel<
         return true;
     }
 }
-
-export type ArrayFieldType<T extends FieldModel<unknown>> = FieldType<T>[];

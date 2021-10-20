@@ -1,5 +1,5 @@
 import type { AnyField } from "./standard/any";
-import type { ArrayField, ArrayFieldType } from "./standard/array";
+import type { ArrayField } from "./standard/array";
 import type { BooleanField } from "./standard/boolean";
 import type { NumberField } from "./standard/number";
 import type { ObjectField, ObjectFieldType } from "./standard/object";
@@ -32,13 +32,13 @@ export class FieldModel<T> {
 export type FieldType<M extends FieldModel<unknown>> = M extends ArrayField<
     infer T
 >
-    ? ArrayFieldType<T>
+    ? FieldType<T>[]
     : M extends UnionField<infer T, infer U>
-    ? T | U
+    ? FieldType<T> | FieldType<U>
     : M extends BooleanField
     ? boolean
     : M extends OptionalField<infer T>
-    ? T | null | undefined
+    ? FieldType<T> | null | undefined
     : M extends NumberField
     ? number
     : M extends ObjectField<infer T>
