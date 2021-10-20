@@ -5,6 +5,7 @@ import { BooleanField } from "./standard/boolean";
 import { NumberField } from "./standard/number";
 import { ObjectField, ObjectFieldModel } from "./standard/object";
 import { OptionalField } from "./standard/optional";
+import { RecordField } from "./standard/record";
 import { StringField } from "./standard/string";
 import { UnionField } from "./advanced/union";
 import { TupleField, TupleFieldTypes } from "./advanced/tuple";
@@ -26,6 +27,14 @@ export namespace fields {
 
     export const optional = <T extends FieldModel<unknown>>(model: T) =>
         new OptionalField(model);
+
+    export const record = <
+        T extends FieldModel<unknown>,
+        U extends FieldModel<unknown>
+    >(
+        key: T,
+        value: U
+    ) => new RecordField(key, value);
 
     export const string = () => new StringField();
 
