@@ -8,6 +8,70 @@ describe("ObjectField", () => {
         ),
     });
 
+    test(".create", () => {
+        // @ts-expect-error
+        expect(field.create("hello")).toThrowError();
+        // @ts-expect-error
+        expect(field.create(1)).toThrowError();
+        // @ts-expect-error
+        expect(field.create(true)).toThrowError();
+        // @ts-expect-error
+        expect(field.create(false)).toThrowError();
+        // @ts-expect-error
+        expect(field.create({})).toThrowError();
+        // @ts-expect-error
+        expect(field.create([])).toThrowError();
+        // @ts-expect-error
+        expect(field.create([1])).toThrowError();
+        // @ts-expect-error
+        expect(field.create(["hello"])).toThrowError();
+        // @ts-expect-error
+        expect(field.create(undefined)).toThrowError();
+        // @ts-expect-error
+        expect(field.create(null)).toThrowError();
+        expect(
+            field.create({
+                a: "hello",
+                b: undefined,
+            })
+        ).toBe({
+            a: "hello",
+        });
+        expect(
+            field.create({
+                a: "hello",
+                // @ts-expect-error
+                b: "world",
+            })
+        ).toThrowError();
+        expect(
+            field.create({
+                a: "hello",
+                b: 1,
+                // @ts-expect-error
+                c: "foo",
+            })
+        ).toThrowError();
+        expect(
+            field.create({
+                a: "hello",
+                b: null,
+            })
+        ).toBe({
+            a: "hello",
+            b: null,
+        });
+        expect(
+            field.create({
+                a: "hello",
+                b: 1,
+            })
+        ).toBe({
+            a: "hello",
+            b: 1,
+        });
+    });
+
     test(".check", () => {
         expect(field.check("hello")).toBe(false);
         expect(field.check(1)).toBe(false);
