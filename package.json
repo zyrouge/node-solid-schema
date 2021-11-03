@@ -1,6 +1,6 @@
 {
     "name": "solid-schema",
-    "version": "1.0.5",
+    "version": "1.1.0",
     "description": "Create schemas with strict type",
     "main": "dist/lib/index.js",
     "files": [
