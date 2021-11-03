@@ -1,15 +1,15 @@
-import { FieldModel, FieldType } from "../base";
+import { FieldModel } from "../base";
+import { ObjectFieldKey } from "./object";
 
-export class RecordField<
-    T extends FieldModel<unknown>,
-    U extends FieldModel<unknown>
-> extends FieldModel<Record<FieldType<T>, FieldType<U>>> {
-    constructor(public readonly key: T, public readonly value: U) {
+export class RecordField<T extends ObjectFieldKey, U> extends FieldModel<
+    Record<T, U>
+> {
+    constructor(
+        public readonly key: FieldModel<T>,
+        public readonly value: FieldModel<U>
+    ) {
         super();
     }
-
-    override type = `{\n  ${this.key.type}: ${this.value.type};\n}`;
-    override name = `RecordField<${this.key.name}, ${this.value.name}>`;
 
     override validate(value: unknown, key: string = "value"): true | never {
         if (
@@ -26,5 +26,13 @@ export class RecordField<
         });
 
         return true;
+    }
+
+    override get name() {
+        return `RecordField<${this.key.name}, ${this.value.name}>`;
+    }
+
+    override get type() {
+        return `{\n  ${this.key.type}: ${this.value.type};\n}`;
     }
 }

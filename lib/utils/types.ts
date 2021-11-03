@@ -4,11 +4,12 @@ export const stringifyValue = (value: unknown) => {
             return `${value}`;
 
         default:
-            return `"${value}""`;
+            return `"${value}"`;
     }
 };
 
 export const stringifyValues = (values: unknown[]) =>
     values.map((x) => stringifyValue(x));
 
-export const joinValues = (values: string[]) => values.join(" | ");
+export const joinValues = (values: string[], joinBy = " | ") =>
+    values.join(joinBy);

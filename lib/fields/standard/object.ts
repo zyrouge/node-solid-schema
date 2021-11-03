@@ -14,11 +14,6 @@ export class ObjectField<T extends ObjectFieldModel> extends FieldModel<
         super();
     }
 
-    override type = `{\n${Object.entries(this.model)
-        .map(([k, v]) => `  ${k}: ${v.name};`)
-        .join("\n")}\n}`;
-    override name = `ObjectField<${this.type}>`;
-
     override validate(value: unknown, key: string = "value"): true | never {
         if (
             typeof value !== "object" ||
@@ -52,6 +47,16 @@ export class ObjectField<T extends ObjectFieldModel> extends FieldModel<
         });
 
         return true;
+    }
+
+    override get name() {
+        return `ObjectField<${this.type}>`;
+    }
+
+    override get type() {
+        return `{\n${Object.entries(this.model)
+            .map(([k, v]) => `  ${k}: ${v.name};`)
+            .join("\n")}\n}`;
     }
 }
 

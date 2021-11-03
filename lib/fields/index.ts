@@ -3,20 +3,25 @@ import { AnyField } from "./standard/any";
 import { ArrayField } from "./standard/array";
 import { BooleanField } from "./standard/boolean";
 import { NumberField } from "./standard/number";
-import { ObjectField, ObjectFieldModel } from "./standard/object";
+import {
+    ObjectField,
+    ObjectFieldKey,
+    ObjectFieldModel,
+} from "./standard/object";
 import { OptionalField } from "./standard/optional";
 import { RecordField } from "./standard/record";
 import { StringField } from "./standard/string";
-import { UnionField } from "./advanced/union";
-import { TupleField, TupleFieldTypes } from "./advanced/tuple";
+import { AndField } from "./advanced/and";
+import { OrField } from "./advanced/or";
+import { ConstantField, ConstantFieldTypes } from "./advanced/constant";
+import { TupleField } from "./advanced/tuple";
 
 export * from "./base";
 
 export namespace fields {
     export const any = () => new AnyField();
 
-    export const array = <T extends FieldModel<unknown>>(model: T) =>
-        new ArrayField(model);
+    export const array = <T>(model: FieldModel<T>) => new ArrayField(model);
 
     export const boolean = () => new BooleanField();
 
@@ -25,28 +30,26 @@ export namespace fields {
     export const object = <T extends ObjectFieldModel>(model: T) =>
         new ObjectField(model);
 
-    export const optional = <T extends FieldModel<unknown>>(model: T) =>
+    export const optional = <T>(model: FieldModel<T>) =>
         new OptionalField(model);
 
-    export const record = <
-        T extends FieldModel<unknown>,
-        U extends FieldModel<unknown>
-    >(
-        key: T,
-        value: U
+    export const record = <T extends ObjectFieldKey, U>(
+        key: FieldModel<T>,
+        value: FieldModel<U>
     ) => new RecordField(key, value);
 
     export const string = () => new StringField();
 
-    export const union = <
-        T extends FieldModel<unknown>,
-        U extends FieldModel<unknown>
-    >(
-        model1: T,
-        model2: U
-    ) => new UnionField(model1, model2);
+    export const or = <T, U>(model1: FieldModel<T>, model2: FieldModel<U>) =>
+        new OrField(model1, model2);
 
-    export const tuple = <T extends TupleFieldTypes>(
-        values: ReadonlyArray<T>
-    ) => new TupleField(values);
+    export const and = <T extends readonly ObjectField<{}>[]>(...models: T) =>
+        new AndField(...models);
+
+    export const constant = <T extends ConstantFieldTypes>(value: T) =>
+        new ConstantField(value);
+
+    export const tuple = <T extends readonly FieldModel<unknown>[]>(
+        ...values: T
+    ) => new TupleField(...values);
 }

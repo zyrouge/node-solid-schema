@@ -1,11 +1,12 @@
 import { fields } from "../../../lib";
 
-const field = fields.union(fields.string(), fields.number());
+const field = fields.constant("hello");
 
 describe(field.name, () => {
     test(`${field.name}.create`, () => {
         expect(() => field.create("hello")).not.toThrowError();
-        expect(() => field.create(1)).not.toThrowError();
+        // @ts-expect-error
+        expect(() => field.create(1)).toThrowError();
         // @ts-expect-error
         expect(() => field.create(true)).toThrowError();
         // @ts-expect-error
@@ -26,7 +27,7 @@ describe(field.name, () => {
 
     test(`${field.name}.check`, () => {
         expect(field.check("hello")).toBe(true);
-        expect(field.check(1)).toBe(true);
+        expect(field.check(1)).toBe(false);
         expect(field.check(true)).toBe(false);
         expect(field.check(false)).toBe(false);
         expect(field.check({})).toBe(false);

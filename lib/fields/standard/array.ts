@@ -1,14 +1,9 @@
-import { FieldModel, FieldType } from "../base";
+import { FieldModel } from "../base";
 
-export class ArrayField<T extends FieldModel<unknown>> extends FieldModel<
-    FieldType<T>[]
-> {
-    constructor(public readonly model: T) {
+export class ArrayField<T> extends FieldModel<T[]> {
+    constructor(public readonly model: FieldModel<T>) {
         super();
     }
-
-    override type = `${this.model.name}[]`;
-    override name = `ArrayField<${this.model.name}>`;
 
     override validate(value: unknown, key: string = "value"): true | never {
         if (!Array.isArray(value)) {
@@ -20,5 +15,13 @@ export class ArrayField<T extends FieldModel<unknown>> extends FieldModel<
         });
 
         return true;
+    }
+
+    override get name() {
+        return `ArrayField<${this.model.name}>`;
+    }
+
+    override get type() {
+        return `${this.model.name}[]`;
     }
 }
