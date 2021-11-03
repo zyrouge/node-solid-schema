@@ -1,6 +1,6 @@
 import { fields } from "../../../lib";
 
-const field = fields.optional(fields.boolean());
+const field = fields.nullable(fields.boolean());
 
 describe(field.name, () => {
     test(`${field.name}.create`, () => {

@@ -1,5 +1,15 @@
 import { FieldModel } from "../base";
 
+/**
+ * Array field.
+ *
+ * @example
+ * ```ts
+ * const schema = fields.array(fields.string());
+ *
+ * schema.create(["hello", "world"]);
+ * ```
+ */
 export class ArrayField<T> extends FieldModel<T[]> {
     constructor(public readonly model: FieldModel<T>) {
         super();

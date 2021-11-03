@@ -2,7 +2,7 @@ import { fields } from "../../../lib";
 
 const field = fields.object({
     a: fields.string(),
-    b: fields.optional(fields.number()),
+    b: fields.nullable(fields.number()),
 });
 
 describe(field.name, () => {

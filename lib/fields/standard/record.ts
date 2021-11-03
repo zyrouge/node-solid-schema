@@ -1,6 +1,20 @@
 import { FieldModel } from "../base";
 import { ObjectFieldKey } from "./object";
 
+/**
+ * Record field.
+ * Equivalent of `Record<K, V>` in TypeScript.
+ *
+ * @example
+ * ```ts
+ * const schema = fields.record(fields.string(), fields.number());
+ *
+ * schema.create({
+ *      a: 2,
+ *      b: 1
+ * });
+ * ```
+ */
 export class RecordField<T extends ObjectFieldKey, U> extends FieldModel<
     Record<T, U>
 > {

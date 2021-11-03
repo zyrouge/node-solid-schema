@@ -5,25 +5,24 @@ Easy create schemas with Typescript support!
 ## Example
 
 ```ts
-import SolidSchema from "solid-schema";
+import { fields } from "solid-schema";
 
-const {
-    Fields: {
-        StringField,
-        NumberField,
-        BooleanField,
-        OptionalField,
-        ObjectField,
-        TupleField,
-    },
-} = SolidSchema;
-
-const UserSchema = new ObjectField({
-    firstname: new StringField(),
-    lastname: new OptionalField(new StringField()),
-    age: new NumberField(),
-    enrolled: new BooleanField(),
-    gender: new TupleField(["Male", "Female"] as const),
+const UserSchema = fields.object({
+    firstname: fields.string(),
+    lastname: fields.nullable(fields.string()),
+    age: fields.number(),
+    enrolled: fields.boolean(),
+    gender: fields.or(
+        fields.constant("Male" as const),
+        fields.constant("Female" as const)
+    ),
+    details: fields.tuple(
+        fields.or(
+            fields.constant("Manager" as const),
+            fields.constant("Supervisor" as const)
+        ),
+        fields.number()
+    ),
 });
 
 const validUser = UserSchema.create({
@@ -32,13 +31,15 @@ const validUser = UserSchema.create({
     age: 25,
     enrolled: false,
     gender: "Male",
+    details: ["Manager", 1],
 });
 
-const validUser = UserSchema.create({
+const invalidUser = UserSchema.create({
     firstname: "Alan",
     lastname: "Walker",
     age: "?", // "Type 'string' is not assignable to type 'number'." and will throw error in runtime
     enrolled: false,
     gender: "?", // "Type 'string' is not assignable to type '"hello" | "world"'." and will throw error in runtime
+    details: ["?"], // "Argument of type '[string]' is not assignable to parameter of type '["Manager" | "Supervisor", number]'." and will throw error in runtime
 });
 ```

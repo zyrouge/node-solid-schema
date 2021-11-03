@@ -1,5 +1,22 @@
 import { ObjectField, ObjectFieldModel } from "../standard/object";
 
+/**
+ * And field.
+ * Combines multiple object fields.
+ *
+ * @example
+ * ```ts
+ * const schema = fields.and(fields.object({
+ *      a: fields.string(),
+ *      b: fields.number(),
+ * }));
+ *
+ * schema.create({
+ *      a: "hello",
+ *      b: 1
+ * });
+ * ```
+ */
 export class AndField<T extends readonly ObjectField<{}>[]> extends ObjectField<
     AndFieldType<T>
 > {

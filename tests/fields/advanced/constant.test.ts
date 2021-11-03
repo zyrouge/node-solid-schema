@@ -1,6 +1,6 @@
 import { fields } from "../../../lib";
 
-const field = fields.constant("hello");
+const field = fields.constant("hello" as const);
 
 describe(field.name, () => {
     test(`${field.name}.create`, () => {

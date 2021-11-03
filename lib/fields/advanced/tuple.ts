@@ -1,6 +1,17 @@
 import { FieldModel } from "../base";
 import { stringifyValues, joinValues } from "../../utils/types";
 
+/**
+ * Tuple field.
+ * When creating a value with this schema, all the values must be provided even if it's a optional field.
+ *
+ * @example
+ * ```ts
+ * const schema = fields.tuple(fields.constant("hello" as const), fields.number(), fields.boolean());
+ *
+ * schema.create("hello", 1, true);
+ * ```
+ */
 export class TupleField<
     T extends readonly FieldModel<unknown>[]
 > extends FieldModel<{

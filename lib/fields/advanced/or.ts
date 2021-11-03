@@ -1,6 +1,18 @@
 import { FieldModel } from "../base";
 import { joinValues } from "../../utils/types";
 
+/**
+ * Or/Union field.
+ * Union (` | ` in TypeScript) between multiple fields.
+ *
+ * @example
+ * ```ts
+ * const schema = fields.or(fields.number(), fields.constant("hello" as const));
+ *
+ * schema.create(1);
+ * schema.create("hello");
+ * ```
+ */
 export class OrField<
     T extends readonly FieldModel<unknown>[]
 > extends FieldModel<

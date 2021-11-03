@@ -8,13 +8,13 @@ import {
     ObjectFieldKey,
     ObjectFieldModel,
 } from "./standard/object";
-import { OptionalField } from "./standard/optional";
 import { RecordField } from "./standard/record";
 import { StringField } from "./standard/string";
 import { AndField } from "./advanced/and";
 import { OrField } from "./advanced/or";
-import { ConstantField, ConstantFieldTypes } from "./advanced/constant";
+import { ConstantField } from "./advanced/constant";
 import { TupleField } from "./advanced/tuple";
+import { NullableField } from "./advanced/nullable";
 
 export * from "./base";
 
@@ -30,8 +30,8 @@ export namespace fields {
     export const object = <T extends ObjectFieldModel>(model: T) =>
         new ObjectField(model);
 
-    export const optional = <T>(model: FieldModel<T>) =>
-        new OptionalField(model);
+    export const nullable = <T>(model: FieldModel<T>) =>
+        new NullableField(model);
 
     export const record = <T extends ObjectFieldKey, U>(
         key: FieldModel<T>,
@@ -46,7 +46,7 @@ export namespace fields {
     export const and = <T extends readonly ObjectField<{}>[]>(...models: T) =>
         new AndField(...models);
 
-    export const constant = <T extends ConstantFieldTypes>(value: T) =>
+    export const constant = <T extends unknown>(value: T) =>
         new ConstantField(value);
 
     export const tuple = <T extends readonly FieldModel<unknown>[]>(

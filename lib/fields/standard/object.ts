@@ -1,5 +1,5 @@
 import { FieldModel, FieldType } from "../base";
-import { OptionalField } from "./optional";
+import { NullableField } from "../advanced/nullable";
 
 export type ObjectFieldKey = string | number | symbol;
 
@@ -7,6 +7,20 @@ export type ObjectFieldModel = {
     [s: ObjectFieldKey]: FieldModel<unknown>;
 };
 
+/**
+ * Object field.
+ *
+ * @example
+ * ```ts
+ * const schema = fields.object({
+ *      a: fields.number()
+ * });
+ *
+ * schema.create({
+ *      a: 1
+ * });
+ * ```
+ */
 export class ObjectField<T extends ObjectFieldModel> extends FieldModel<
     ObjectFieldType<T>
 > {
@@ -29,7 +43,7 @@ export class ObjectField<T extends ObjectFieldModel> extends FieldModel<
         modelKeys.forEach((k) => {
             if (
                 !valueKeys.includes(k) &&
-                !(this.model[k]! instanceof OptionalField)
+                !(this.model[k]! instanceof NullableField)
             ) {
                 throw new RangeError(`'${key}' has a missing key '${k}'`);
             }

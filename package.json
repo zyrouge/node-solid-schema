@@ -8,7 +8,8 @@
     ],
     "scripts": {
         "build": "rimraf ./dist && tsc",
-        "test": "jest"
+        "test": "jest",
+        "docs": "typedoc --cleanOutputDir --out ./docs ./lib"
     },
     "keywords": [
         "schema",
@@ -24,6 +25,8 @@
         "rimraf": "^3.0.2",
         "ts-jest": "^27.0.7",
         "ts-node": "^10.3.0",
+        "typedoc": "^0.22.7",
+        "typedoc-plugin-missing-exports": "^0.22.3",
         "typescript": "^4.4.4"
     }
 }

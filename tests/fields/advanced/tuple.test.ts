@@ -1,7 +1,10 @@
 import { fields } from "../../../lib";
 
 const field = fields.tuple(
-    fields.or(fields.constant("hello"), fields.constant("world")),
+    fields.or(
+        fields.constant("hello" as const),
+        fields.constant("world" as const)
+    ),
     fields.number()
 );
 
