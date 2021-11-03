@@ -1,36 +1,43 @@
 import { FieldModel } from "../base";
 import { stringifyValues, joinValues } from "../../utils/types";
 
-const TupleFieldTypesValues = ["string", "number"] as const;
-export type TupleFieldTypes = string | number;
+export class TupleField<
+    T extends readonly FieldModel<unknown>[]
+> extends FieldModel<{
+    [P in keyof T]: T[P] extends FieldModel<infer T> ? T : never;
+}> {
+    values: T;
 
-export class TupleField<T extends TupleFieldTypes> extends FieldModel<T> {
-    constructor(public readonly values: ReadonlyArray<T>) {
+    constructor(...values: T) {
         super();
 
-        values.forEach((x) => {
-            if (
-                !TupleFieldTypesValues.includes(
-                    typeof x as typeof TupleFieldTypesValues[number]
-                )
-            ) {
-                throw new TypeError(
-                    `Tuple 'values' must be ${values
-                        .map((x) => `'${x}'`)
-                        .join(" or ")}`
-                );
-            }
-        });
+        this.values = values;
     }
 
-    override type = `(${joinValues(stringifyValues(this.values.concat()))})`;
-    override name = `TupleField<${this.type}>`;
-
     override validate(value: unknown, key: string = "value"): true | never {
-        if (!this.values.includes(value as T)) {
-            throw new TypeError(`'${key}' must be '${this.type}'`);
+        if (!Array.isArray(value)) {
+            throw new TypeError(`'${key}' must be an 'array'`);
+        }
+
+        if (value.length !== this.values.length) {
+            throw new TypeError(`Length of '${key}' does not match the tuple`);
+        }
+
+        for (let i = 0; i < this.values.length; i++) {
+            this.values[i]!.validate(value[i], `Index ${i}`);
         }
 
         return true;
+    }
+
+    override get name() {
+        return `TupleField<${this.type}>`;
+    }
+
+    override get type() {
+        return `(${joinValues(
+            stringifyValues(this.values.map((x) => x.type)),
+            ", "
+        )})`;
     }
 }
