@@ -1,6 +1,6 @@
 # Solid Schema
 
-Easy create schemas with Typescript support!
+Easily create type-safe schemas with runtime type check!
 
 ## Example
 
