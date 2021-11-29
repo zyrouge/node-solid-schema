@@ -40,8 +40,9 @@ export namespace fields {
 
     export const string = () => new StringField();
 
-    export const or = <T, U>(model1: FieldModel<T>, model2: FieldModel<U>) =>
-        new OrField(model1, model2);
+    export const or = <T extends readonly FieldModel<unknown>[]>(
+        ...models: T
+    ) => new OrField(...models);
 
     export const and = <T extends readonly ObjectField<{}>[]>(...models: T) =>
         new AndField(...models);
